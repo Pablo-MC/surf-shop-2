@@ -1,8 +1,10 @@
-# Surf Shop 2 :ocean: - _Stack MERN (MongoDB, Express, React, Node)_
+# Surf Shop 2 :ocean:
 
 ## Acerca del Proyecto
 
 ‣ _**[Surf Shop](https://surf-shop-app.netlify.app/)** es una tienda virtual ficticia que ofrece productos para los amantes del Surf._     
+
+‣ Javascript Stack: _**MERN** (MongoDB, Express, React, Node.js)_
 
 ‣ Dependencias utilizadas: 
  * **Front-end:** _axios, bootstrap, font-awesome, jquery, react-router-dom, styled-components, react-elastic-carousel._
