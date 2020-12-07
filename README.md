@@ -1,4 +1,4 @@
-# Surf Shop 2 :ocean: - _Stack MERN (MongoDB, Express, React, Node.js)_ 
+# Surf Shop 2 :ocean: - _Stack MERN (MongoDB, Express, React, Node.js)_
 
 ## Acerca del Proyecto
 
