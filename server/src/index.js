@@ -1,14 +1,14 @@
 require('dotenv').config();  // Importación de las variables de entorno.
 
 const express = require('express');
-const { connectDB } = require('./database'); 
+const { connectDB } = require('./database');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');  // Permite obtener la ruta donde se encuentra un archivo determinado.
 
 
 // Creación del Servidor
-const app = express(); 
+const app = express();
 
 // Iniciar conexión con la Base de Datos
 connectDB();
@@ -22,15 +22,15 @@ app.use(express.urlencoded({ extended: false }));  // permite al servidor interp
 // Routes (Definición de las rutas del Servidor) - REST API
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/user', require('./routes/user.routes'));
-app.use('/api/product', require('./routes/product.routes'));   
-app.use('/api/category', require('./routes/category.routes'));   
+app.use('/api/product', require('./routes/product.routes'));
+app.use('/api/category', require('./routes/category.routes'));
 
 // Carpeta pública de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Establecer el número de puerto al cual se va a conectar el servidor. (!== al puerto del cliente). 
 // OBS: En producción el número de puerto será establecido por el hosting en el valor env.PORT
-app.set('port', process.env.PORT || 4000); 
+app.set('port', process.env.PORT || 4000);
 
 // Iniciar Servidor
 app.listen(app.get('port'), () => {
