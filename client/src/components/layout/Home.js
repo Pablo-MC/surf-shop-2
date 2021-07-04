@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Carousel from './Carousel';
 import Payment from './Payment';
@@ -8,15 +8,15 @@ import Footer from '../layout/Footer';
 
 
 const Home = () => {
-   return (
-      <>
-         <Carousel />
-         <Payment />
-         <ListProducts />
-         <Brands />
-         <Footer />
-      </>
-   );
+  return (
+    <Fragment>
+      <Carousel />
+      <Payment />
+      <ListProducts />
+      <Brands />
+      <Footer />
+    </Fragment>
+  );
 }
 
 export default Home;

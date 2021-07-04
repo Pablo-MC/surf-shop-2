@@ -1,20 +1,27 @@
 import React from 'react';
 
+import lost from '../../assets/images/brands/lost.png'
+import channel from '../../assets/images/brands/channel.png'
+import create from '../../assets/images/brands/create.png'
+import dc from '../../assets/images/brands/dc.png'
+import element from '../../assets/images/brands/element.png'
+import quicksilver from '../../assets/images/brands/quicksilver.png'
+import vans from '../../assets/images/brands/vans.png'
 
 const Brands = () => {
-   return (
-      <div className="container">
-         <div className="row justify-content-around py-5">
-            <img src={require('../../assets/images/brands/lost.png')} alt="Lost" />
-            <img src={require('../../assets/images/brands/channel.png')} alt="Channel" />
-            <img src={require('../../assets/images/brands/create.png')} alt="Create" />
-            <img src={require('../../assets/images/brands/dc.png')} alt="DC" />
-            <img src={require('../../assets/images/brands/element.png')} alt="Element" />
-            <img src={require('../../assets/images/brands/quicksilver.png')} alt="Quicksilver" />
-            <img src={require('../../assets/images/brands/vans.png')} alt="Vans" />
-         </div>
+  return (
+    <div className="container">
+      <div className="row justify-content-around py-5">
+        <img src={lost} alt="Lost" />
+        <img src={channel} alt="Channel" />
+        <img src={create} alt="Create" />
+        <img src={dc} alt="DC" />
+        <img src={element} alt="Element" />
+        <img src={quicksilver} alt="Quicksilver" />
+        <img src={vans} alt="Vans" />
       </div>
-   );
+    </div>
+  );
 }
 
 export default Brands;
