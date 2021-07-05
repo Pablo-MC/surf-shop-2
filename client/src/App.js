@@ -5,20 +5,22 @@ import RoleState from './context/role/roleState'
 import AuthState from './context/auth/authState';
 import CartState from './context/cart/cartState';
 
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import Home from './components/layout/Home';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Home from './pages/home/Home';
+import PageNotFound from './pages/PageNotFound';
+import ListProductsCategory from './pages/products/ListProductsCategory';
+import Cart from './pages/cart/Cart';
+import Checkout from './pages/cart/Checkout';
+import Admin from './pages/admin/Admin';
+import CreateProduct from './pages/admin/CreateProduct';
+import EditProduct from './pages/admin/EditProduct';
+import DeleteProduct from './pages/admin/DeleteProduct';
+import ManageUsers from './pages/admin/ManageUsers';
+
 import Navbar from './components/layout/Navbar';
 import SessionExpired from './components/layout/SessionExpired';
-import PageNotFound from './components/layout/PageNotFound';
-import ListProductsCategory from './components/products/ListProductsCategory';
-import Cart from './components/cart/Cart';
-import Checkout from './components/cart/Checkout';
-import Admin from './components/admin/Admin';
-import CreateProduct from './components/admin/CreateProduct';
-import EditProduct from './components/admin/EditProduct';
-import DeleteProduct from './components/admin/DeleteProduct';
-import ManageUsers from './components/admin/ManageUsers';
+
 import PrivateRoute from './components/routes/PrivateRoute';
 
 import tokenAuth from './config/token';
@@ -26,11 +28,10 @@ import tokenAuth from './config/token';
 // Al iniciar la app o al recargar el componente, enviamos (en caso de que exista) el token que esta almacenado en LocalStorage via HEADER al Backend.
 tokenAuth();
 
-
-// SCROLL TOP
+// Scrolling Arrow Top
 window.addEventListener('scroll', function () {
-  var scroll = document.querySelector('.scrollTop');
-  scroll.classList.toggle('active', window.scrollY > 500)
+  const scrollTop = document.querySelector('.scrollTop');
+  scrollTop.classList.toggle('active', window.scrollY > 500);
 });
 
 function scrollToTop() {

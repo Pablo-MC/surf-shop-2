@@ -1,6 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
 
+import logo from '../../assets/images/logo/logo_white.png';
+
 const SessionExpired = () => {
 
   $(document).ready(() => {
@@ -12,7 +14,7 @@ const SessionExpired = () => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header bg-info p-0">
-            <img src={require('../../assets/images/logo/logo_white.png')} className="mx-auto" width="100" alt="Main Logo" />
+            <img src={logo} className="mx-auto" width="100" alt="Main Logo" />
           </div>
           <div className="modal-body text-center p-4 mt-4">
             <h2>Ups!... Your Session Expired</h2>

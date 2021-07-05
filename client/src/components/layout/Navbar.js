@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import $ from 'jquery';
 
 import authContext from '../../context/auth/authContext';
@@ -10,6 +10,7 @@ import logo from '../../assets/images/logo/logo_blue.png';
 
 
 const Navbar = () => {
+  const history = useHistory();
 
   const { user, authenticated, logOut, getAuthenticatedUser } = useContext(authContext);
   const { categories, getCategories, getProducts, getProductsByCategory } = useContext(roleContext);
@@ -36,7 +37,7 @@ const Navbar = () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         logOut();
-        window.location.href = '/session-expired';
+        history.push('/session-expired');
       }, 120000); // 2m === 120000
     })
   }
@@ -48,7 +49,7 @@ const Navbar = () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         logOut();
-        window.location.href = '/session-expired';
+        history.push('/session-expired');
       }, 120000); // 2m === 120000
     })
   }

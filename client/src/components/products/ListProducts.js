@@ -12,10 +12,12 @@ const ListProducts = () => {
   }, []);
 
   // Almacenar todos los productos ordenados aleatoriamente.
-  let randomProducts = products.sort(() => Math.random() - 0.5);
+  // let randomProducts = products.sort(() => Math.random() - 0.5);
 
-  // Productos más vendidos y con stock. 
-  let sellers = products.filter(product => product.sold > 2 && product.stock > 0);
+  // Productos "más vendidos", con stock y ordeandos aleatoriamente. 
+  let sellers = products
+    .filter(product => product.sold > 2 && product.stock > 0)
+    .sort(() => Math.random() - 0.5);
 
   // BreakPoints Carousel
   const breakPoints = [
@@ -29,19 +31,20 @@ const ListProducts = () => {
   return (
     <Fragment>
       <div className="container">
-        <h2 className="my-5 text-center">Deals of the Day</h2>
-        <Carousel breakPoints={breakPoints}>
-          {randomProducts.map(product => <Product key={product._id} product={product} />)}
-        </Carousel>
-      </div>
-
-      <div className="container">
         <h2 className="my-5 text-center">Best sellers</h2>
         <Carousel initialFirstItem={Math.ceil(Math.random() * 3)} breakPoints={breakPoints}>
           {sellers.map(product => <Product key={product._id} product={product} />)}
         </Carousel>
         <hr className="mt-5 mb-0" />
       </div>
+
+      {/* <div className="container">
+        <h2 className="my-5 text-center">Deals of the Day</h2>
+        <Carousel breakPoints={breakPoints}>
+          {randomProducts.map(product => <Product key={product._id} product={product} />)}
+        </Carousel>
+        <hr className="mt-5 mb-0" />
+      </div> */}
     </Fragment>
   );
 }

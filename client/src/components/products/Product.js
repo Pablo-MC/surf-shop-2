@@ -2,28 +2,28 @@ import React, { Fragment, useContext } from 'react';
 import cartContext from '../../context/cart/cartContext';
 import $ from 'jquery';
 
+import ModalProduct from './ModalProduct';
+import ModalAddCart from './ModalAddCart';
 
 const Product = ({ product }) => {
   const { addProduct } = useContext(cartContext);
 
   const { name, imageURL, price, description, stock } = product;
 
-  // Modal AddCart (timer)
-  $(document).ready(() => {
-    $('#cartModal').on('shown.bs.modal', () => {
-      var timer = setInterval(() => {
-        $('#cartModal').modal('toggle');
-        clearInterval(timer);
-      }, 700);
-    });
+  // Modal AddCart with timer
+  $('#cartModal').on('shown.bs.modal', () => {
+    const timer = setInterval(() => {
+      $('#cartModal').modal('toggle');
+      clearInterval(timer);
+    }, 700);
   });
 
-  // Modal Product (content)
-  const viewModalProduct = (name, imageURL, description) => {
-    $('#nameProduct').html(name);
-    $('#imageProduct').attr('src', imageURL);
-    $('#descriptionProduct').html(description);
-  }
+  // Modal Product
+  const dataProductModal = (name, imageURL, description) => {
+    document.getElementById('nameProduct').textContent = name;
+    document.getElementById('imageProduct').setAttribute('src', imageURL);
+    document.getElementById('descriptionProduct').textContent = description;
+  };
 
 
   return (
@@ -35,7 +35,7 @@ const Product = ({ product }) => {
           <img src={imageURL} alt={name}
             className="w-75 d-block mx-auto"
             data-toggle="modal" data-target="#productModal" role="button"
-            onClick={() => viewModalProduct(name, imageURL, description)}
+            onClick={() => dataProductModal(name, imageURL, description)}
           />
           {!stock
             ?
@@ -53,37 +53,10 @@ const Product = ({ product }) => {
         </div>
       </div>
 
+      {/* /////////////// */}
 
-      {/* Modal Product */}
-      <div className="modal fade style-modal" id="productModal" tabIndex="-1" role="dialog" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title mx-auto" id="nameProduct">{name}</h5>
-            </div>
-            <div className="modal-body text-center">
-              <img className="w-50" src={imageURL} alt={name} id="imageProduct" />
-              <p className="pt-3" id="descriptionProduct">{description}</p>
-            </div>
-            <div className="modal-footer mx-auto">
-              <button className="btn btn-secondary mr-3" type="button" data-dismiss="modal"><i className="fa fa-undo mr-2"></i>Back to Products</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      {/* Modal AddCart */}
-      <div className="modal fade" id="cartModal" tabIndex="-1" role="dialog" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="card-body text-center py-5">
-              <i className="fa fa-check-circle-o text-success fa-5x"></i>
-              <h4 className="mt-3">Product added to Cart</h4>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ModalProduct />
+      <ModalAddCart />
     </Fragment>
   )
 }

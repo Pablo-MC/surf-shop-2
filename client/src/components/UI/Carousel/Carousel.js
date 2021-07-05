@@ -1,9 +1,9 @@
 import React from 'react';
 
-import carousel_1 from '../../assets/images/carousel/carousel_1.jpg'
-import carousel_2 from '../../assets/images/carousel/carousel_2.jpg'
-import carousel_3 from '../../assets/images/carousel/carousel_3.jpg'
-import carousel_4 from '../../assets/images/carousel/carousel_4.jpg'
+import carousel_1 from '../../../assets/images/carousel/carousel_1.jpg'
+import carousel_2 from '../../../assets/images/carousel/carousel_2.jpg'
+import carousel_3 from '../../../assets/images/carousel/carousel_3.jpg'
+import carousel_4 from '../../../assets/images/carousel/carousel_4.jpg'
 
 import CarouselItem from './CarouselItem';
 
