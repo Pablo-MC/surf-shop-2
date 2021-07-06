@@ -1,7 +1,7 @@
 import clientAxios from './axios';
 
 
-// Fn utilizada para enviar el token al backend cada vez que el usuario realiza una petición.
+// Fn utilizada para enviar el token al backend cada vez que el usuario realiza una petición. ?????
 const tokenAuth = () => {
   const token = localStorage.getItem('token');  // token ->  string (true)  ||  null (false).
 

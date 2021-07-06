@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import authContext from '../../context/auth/authContext';
+import { useSelector } from 'react-redux';
 
 const Admin = () => {
-  const { user } = useContext(authContext);
+  const user = useSelector(state => state.auth.user)
 
   return (
     <div className="container">

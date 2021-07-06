@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import RoleState from './context/role/roleState'
-import AuthState from './context/auth/authState';
 import CartState from './context/cart/cartState';
 
 import Login from './pages/auth/Login';
@@ -44,37 +43,36 @@ function scrollToTop() {
 
 function App() {
   return (
-    <AuthState>
-      <RoleState>
-        <CartState>
-          <div className="container-fluid p-0">
-            <Navbar />
-            <Switch>
-              <Route exact path='/' component={Home} />
+    <RoleState>
+      <CartState>
+        <main className="container-fluid p-0">
+          <Navbar />
+          <Switch>
+            <Route exact path='/' component={Home} />
 
-              <Route path='/login' component={Login} />
-              <Route path='/register' component={Register} />
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
 
-              <Route path='/cart' component={Cart} />
-              <Route path='/products/:category' component={ListProductsCategory} />
+            <Route path='/cart' component={Cart} />
+            <Route path='/products/:category' component={ListProductsCategory} />
 
-              <PrivateRoute exact path='/admin' component={Admin} />
-              <PrivateRoute path='/admin/create-product' component={CreateProduct} />
-              <PrivateRoute path='/admin/edit-product' component={EditProduct} />
-              <PrivateRoute path='/admin/delete-product' component={DeleteProduct} />
-              <PrivateRoute path='/admin/manage-users' component={ManageUsers} />
+            <PrivateRoute exact path='/admin' component={Admin} />
+            <Route exact path='/admin' component={Admin} />
+            <PrivateRoute path='/admin/create-product' component={CreateProduct} />
+            <PrivateRoute path='/admin/edit-product' component={EditProduct} />
+            <PrivateRoute path='/admin/delete-product' component={DeleteProduct} />
+            <PrivateRoute path='/admin/manage-users' component={ManageUsers} />
 
-              <PrivateRoute path='/checkout' component={Checkout} />
+            <PrivateRoute path='/checkout' component={Checkout} />
 
-              <Route path='/session-expired' component={SessionExpired} />
+            <Route path='/session-expired' component={SessionExpired} />
 
-              <Route path="*" component={PageNotFound} />
-            </Switch>
-            <div className="scrollTop" onClick={() => scrollToTop()}></div>
-          </div>
-        </CartState>
-      </RoleState>
-    </AuthState>
+            <Route path="*" component={PageNotFound} />
+          </Switch>
+          <div className="scrollTop" onClick={() => scrollToTop()}></div>
+        </main>
+      </CartState>
+    </RoleState>
   );
 }
 

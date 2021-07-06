@@ -1,12 +1,13 @@
 import React, { Fragment, useContext } from 'react';
-import authContext from '../../context/auth/authContext';
+import { useSelector } from 'react-redux';
+
 import cartContext from '../../context/cart/cartContext';
 import CartList from '../../components/cart/CartList';
 
 const Cart = (props) => {
-  const { authenticated } = useContext(authContext);
-  const { productsCart, totalPrice } = useContext(cartContext);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
+  const { productsCart, totalPrice } = useContext(cartContext);
 
   return (
     <Fragment>
@@ -41,7 +42,7 @@ const Cart = (props) => {
 
           <div className="container d-flex justify-content-end mt-4 pt-3 pb-5 cart-price">
             <h2 className="m-0">Total: $ {totalPrice.toFixed(2)}</h2>
-            {authenticated
+            {isAuthenticated
               ?
               <button
                 type="submit"

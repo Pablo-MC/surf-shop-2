@@ -1,64 +1,65 @@
-import React, { useState, useContext, useEffect } from 'react';
-import authContext from '../../context/auth/authContext';
+import React, { useRef, useState, useEffect } from 'react';
 
-const Register = (props) => {
-  const { registered, message, registerUser } = useContext(authContext);
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../store/auth-actions';
+
+import { useHistory } from 'react-router-dom';
+
+const Register = () => {
+  const [colorMessage, setColorMessage] = useState('danger');
+
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const registered = useSelector(state => state.auth.registered);
+  const message = useSelector(state => state.auth.message);
 
   useEffect(() => {
-    if (registered) props.history.push('/login');
-    // eslint-disable-next-line
-  }, [registered, message, props.history]);
+    if (registered) {
+      setColorMessage('success');
+      setTimeout(() => {
+        history.push('/login');
+      }, 2000)
+    }
+  }, [registered]);
 
-  const [user, setUser] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
-
-  const { username, email, password } = user;
-
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  }
-
-  const handleSubmit = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
-    registerUser({
-      username: username,
-      email: email,
-      password: password
-    });
+    dispatch(registerUser({
+      username: username.current.value,
+      email: email.current.value,
+      password: password.current.value
+    }));
   }
-
 
   return (
     <div id="register" className="row justify-content-center h-100 p-4">
       <div className="col col-sm-8 col-md-6 col-lg-5 col-xl-4 my-5">
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={submitHandler}>
           <div className="input-group mb-3">
             <div className="input-group-prepend"><span className="input-group-text"><i className="fa fa-user-circle"></i></span></div>
             <input
               className="form-control"
               type="text"
-              name="username"
-              value={username}
+              ref={username}
               placeholder="User Name"
-              onChange={handleChange}
               required
             />
           </div>
           <div className="input-group mb-3">
-            <div className="input-group-prepend"><span className="input-group-text"><i className="fa fa-envelope"></i></span></div>
+            <div className="input-group-prepend">
+              <span className="input-group-text"><i className="fa fa-envelope"></i></span>
+            </div>
             <input
               className="form-control"
               type="email"
-              name="email"
-              value={email}
+              ref={email}
               placeholder="Email"
-              onChange={handleChange}
               required
             />
           </div>
@@ -67,17 +68,15 @@ const Register = (props) => {
             <input
               className="form-control"
               type="password"
-              name="password"
-              value={password}
+              ref={password}
               placeholder="Password"
-              onChange={handleChange}
               required
             />
           </div>
 
           {!message
             ? <button className="btn btn-block btn-primary rounded-pill mt-4 p-2" type="submit">Create account</button>
-            : <div className="alert alert-danger text-center rounded-pill mt-4 p-2 mb-0" role="alert">{message}</div>
+            : <div className={`alert alert-${colorMessage} text-center rounded-pill mt-4 p-2 mb-0`} role="alert">{message}</div>
           }
         </form>
       </div>
