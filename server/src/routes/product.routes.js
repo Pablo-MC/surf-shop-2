@@ -1,40 +1,30 @@
 // Enrutador de Productos: definición de las rutas del servidor que estan relacionadas con los Productos.
- 
-const express = require('express');
-const router = express.Router();  // Router() retorna un objeto que nos permite definir rutas.
+import { Router } from 'express';
 
 // Middlewares 
-const { isAuthenticated, isAdmin } = require('../middleware/auth');
-const multer = require('../middleware/multer');
+import { verifyToken, isAdmin } from '../middleware/auth';
+import multer from '../middleware/multer';
 
-const { 
-   getAllProducts,
-   getProduct,
-   getProductsCategory,
-   createProduct, 
-   updateProduct, 
-   deleteProduct
-} = require('../controllers/product.controller');
+// Controllers
+import * as ctrl from '../controllers/product.controller';
 
+const router = Router();  // Router() retorna un objeto que nos permite definir rutas.
 
-router.get('/', getAllProducts);
-router.get('/:id', getProduct);
-router.get('/categories/:id', getProductsCategory);
+router.get('/', ctrl.getProducts);
+router.get('/:productId', ctrl.getProductById);
+router.get('/categories/:categoryId', ctrl.getProductsByCategory);
 
-router.post('/', [isAuthenticated, isAdmin, multer.single('image')], createProduct);
+router.post('/', [verifyToken, isAdmin, multer.single('image')], ctrl.createProduct);
 
-router.put('/:id', [isAuthenticated, isAdmin], updateProduct);  // Actualización de un producto realizada por un Administrador
-router.put('/checkout/:id', isAuthenticated, updateProduct);  // Actualización de un producto cuando el usuario realiza una compra.
+router.put('/:productId', [verifyToken, isAdmin], ctrl.updateProductById);
+router.put('/checkout/:productId', verifyToken, ctrl.updateProductById);
 
-router.delete('/:id', [isAuthenticated, isAdmin], deleteProduct);
+router.delete('/:productId', [verifyToken, isAdmin], ctrl.deleteProductById);
+
+export default router;
 
 
-module.exports = router;
-
-
-/* 
-
-OBS:
+/*
 
 -> '/' hace referencia a la URL http://localhost:4000/api/product
 -> '/:id' hace referencia a la URL http://localhost:4000/api/product/:id   -> :id   sintaxis que se usa para indicar que le vamos a pasar un id que todavia no sabemos.

@@ -1,81 +1,68 @@
-const User = require('../models/User');
+import User from '../models/User';
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+export const register = async function (req, res) {
+  try {
+    const { username, email, password } = req.body;
 
+    // Revisar en la Base de Datos que no haya un usuario registrado con el mismo email.
+    const emailExist = await User.findOne({ email: email }); // Retorna un objeto completo o vacio
+    if (emailExist) return res.status(400).json({ message: 'User already exists' });
 
-exports.register = async (req, res) => {
-   try {
-      const { username, email, password } = req.body;
+    // Hashear el password del Usuario
+    const salt = await bcryptjs.genSalt(10);  // Genero un hash aleatorio. Repeticion del algoritmo: 10 
+    const passwordHash = await bcryptjs.hash(password, salt);  // Hasheo el password del usuario.
 
-      // Revisar en la Base de Datos que no haya un usuario registrado con el mismo email.
-      const emailExist = await User.findOne({ email: email }); // Retorna un objeto completo o vacio
-      if (emailExist) return res.status(400).json({ message: 'User already exists' });
+    // Crear Usuario
+    const newUser = new User({
+      username: username,
+      email: email,
+      password: passwordHash
+    });
 
-      // Hashear el password del Usuario
-      const salt = await bcryptjs.genSalt(10);  // Genero un hash aleatorio. Repeticion del algoritmo: 10 
-      const passwordHash = await bcryptjs.hash(password, salt);  // Hasheo el password del usuario.
+    // Guardar Usuario en la Base de datos
+    await newUser.save();
 
-      // Crear Usuario
-      const newUser = new User({
-         username: username,
-         email: email,
-         password: passwordHash
-      });
-
-      // Guardar Usuario en la Base de datos
-      await newUser.save();
-
-      // Retorno el usuario . OBS SIEMPRE SE DEBE RETORNAR ALGO. 
-      res.status(200).json(newUser);
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
+    // OBS: SIEMPRE SE DEBE RETORNAR ALGO. 
+    res.status(200).json({ message: 'Successful registration! 😀' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
+export const login = async function (req, res) {
+  try {
+    const { email, password } = req.body;
 
-exports.login = async (req, res) => {
-   try {
-      const { email, password } = req.body;
+    // Verificar si es un usuario que ya esta registrado.
+    const user = await (await User.findOne({ email: email })); // Retorna un objeto (true) ó null (false).
+    if (!user) return res.status(400).json({ message: 'The user not exist' });
 
-      // Verificar si es un usuario que ya esta registrado.
-      const user = await User.findOne({ email: email }); // Retorna un objeto (true) ó null (false).
-      if (!user) return res.status(400).json({ message: 'The user not exist' });
+    // Revisar si el password que nos envía el Usuario matchea con el password del usuario registrado.
+    const matchPassword = await bcryptjs.compare(password, user.password); // Retorna un boolean. 
+    if (!matchPassword) return res.status(400).json({ message: 'Invalid password' });
 
-      // Revisar si el password que nos envía el Usuario matchea con el password del usuario registrado.
-      const matchPassword = await bcryptjs.compare(password, user.password); // Retorna un boolean. 
-      if (!matchPassword) return res.status(400).json({ message: 'Invalid password' });
+    // Crear el Token. sign() recibe tres parámetros:
+    //1). Dato que se va guardar adentro del Token. (en este caso: el dato es el id del usuario). 
+    //2). Palabra secreta que se va a utilizar para cifrar el dato del Token.
+    //3). Tiempo de expiración del Token. (Opcional) -> Ej: 24hs = 86400 seg. 
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 86400 // 24hs });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-
-      // Crear el Token.
-
-      // sign() recibe tres parámetros: 
-      //1). Dato que se va guardar adentro del Token. (en este caso: el dato es el id del usuario). 
-      //2). Palabra secreta que se va a utilizar para cifrar el dato del Token.
-      //3). Tiempo de expiración del Token. (Opcional) -> Ej: 24hs = 86400 seg. 
-      // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 86400 });
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-      // Enviar el Token al cliente para que se almacene en el LocalStorage. 
-      res.status(200).json({ token });
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
+    // Enviar el Token al cliente para que se almacene en el LocalStorage y los datos del usuario. 
+    res.status(200).json({ token, user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
-
-exports.getAuthenticatedUser = async (req, res) => {
-   try {
-
-      // console.log(req.userId);
-
-      const userAuth = await User.findById(req.userId).select('-password');  // retorna el usuario (objeto) referente al id pasado por parametro sin el password.
-
-      res.status(200).json(userAuth);
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
+export const getAuthenticatedUser = async function (req, res) {
+  try {
+    // Retorna el usuario referente al id pasado por parametro SIN el password.
+    const userAuth = await User.findById(req.userId).select('-password');
+    res.status(200).json(userAuth);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }

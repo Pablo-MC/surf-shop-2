@@ -1,21 +1,13 @@
-// Enrutador de Usuarios: definición de las rutas del servidor que estan relacionadas con los Usuarios.
+import { Router } from 'express';
+import * as ctrl from '../controllers/user.controller';
 
-const express = require('express');
-const router = express.Router();
+const router = Router();
 
-const { 
-   getUsers, 
-   getUser, 
-   deleteUser,
-   updateUser,
-} = require('../controllers/user.controller');
+router.get('/', ctrl.getUsers);
+router.get('/:userId', ctrl.getUserById);
 
+router.put('/:userId', ctrl.updateUserById);
 
-router.get('/', getUsers);
-router.get('/:id', getUser);
+router.delete('/:userId', ctrl.deleteUserById);
 
-router.put('/:id', updateUser);
-
-router.delete('/:id', deleteUser);
-
-module.exports = router;
+export default router;

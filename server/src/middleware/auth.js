@@ -1,70 +1,58 @@
-// Cada vez que se envie una petición al servidor podemos utilizar dichas funciones (middlewares) en las rutas que queramos para realizar validaciones antes de ejecutar la función del controlador.
+// Cada vez que se envie una petición al servidor podemos utilizar dichas funciones (middlewares) en determinadas rutas para protejerlas y realizar validaciones ANTES de ejecutar la función del controlador. 
 
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
-const User = require('../models/User');
-const Category = require('../models/Category');
-// const Product = require('../models/Product'); 
+import User from '../models/User';
+import Category from '../models/Category';
 
+export const verifyToken = async function (req, res, next) {
+  try {
+    // Verificar si existe un token almacenado en el campo 'x-auth-token' del header de la petición del cliente.
+    const token = req.header('x-auth-token');  // console.log(token);  
+    if (!token) return res.status(403).json({ message: 'No token provided!' });
 
-// Verificar si un token existe, es valido o expiró. 
-exports.isAuthenticated = async (req, res, next) => {
+    // Verificar si el token es válido. Si es valido nos retorna un objeto donde se encuentra almacenado el id del usuario ej: { id: '5f61810cb394ef082828a7e3', iat: 1600225548, exp: 1600311948 }. De lo contrario entra al catch y retorna el mensaje: 'jwt expired' || 'invalid token'. 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);  // console.log(decoded);
 
-   try {
-      // Verificar si existe un token almacenado en el HEADER (key: 'x-auth-token')
-      const token = req.header('x-auth-token');  // console.log(token);  
-      if (!token) return res.status(403).json({ message: 'No token provided!' });
+    // Verificar si existe un usuario con dicho id  (Por si se eliminó el usuario y el token se mantuvo).
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
-      // Verificar si el token es válido: verify() decodifica y verifica si el valor del token almacenado en 'x-auth-token' machea con el valor de JWT_SECRET. Si machea retorna un objeto donde se encuentra almacenado el id del usuario (dato) { id: '5f61810cb394ef082828a7e3', iat: 1600225548, exp: 1600311948 } . De lo contrario entra al catch y retorna el mensaje: 'jwt expired' || 'invalid token'.
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);  // console.log(decoded);
+    // Asignar a la request (req) el id del usuario en la propiedad userId para poder utilizarla en el siguiente middleware o en la función del controlador.
+    req.userId = decoded.id;
 
-      // Asignar a la request (req) el id del usuario en una nueva propiedad llamada userId para poder ser utilizada en el siguiente middleware o en la siguiente función de un controlador.
-      req.userId = decoded.id;
-
-      // Verificar si existe un usuario con dicho id  (Por si se eliminó el usuario y el token se mantuvo). OBS: Esto no es necesario si del lado del cliente se elimina el Token cuando un usuario se da de baja.
-      const user = await User.findById(req.userId);
-      if (!user) return res.status(404).json({ message: 'User not found' });
-
-      next();  // next() continúa con el siguiente middleware ó función de un controlador.
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });  // 'jwt expired'  ||  'invalid token'
-   }
+    next();  // next() continúa con el siguiente middleware ó función de un controlador.
+  } catch (error) {
+    res.status(500).json({ message: error.message });  // 'jwt expired'  ||  'invalid token'
+    // res.status(500).json({ message: 'Unauthorized' });
+  }
 }
 
+export const isAdmin = async function (req, res, next) {
+  try {
+    const user = await User.findById(req.userId);
+    if (user.role !== 'admin') return res.status(403).json({ message: 'Require Admin role' });
 
-exports.isAdmin = async (req, res, next) => {
-
-   try {
-      const user = await User.findById(req.userId);
-
-      if (user.roles !== 'admin') return res.status(403).json({ message: 'Require Admin role' });
-
-      next();
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
+export const categoryById = async function (req, res, next) {
+  try {
+    const { categoryId } = req.params;
 
-exports.categoryById = async (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) return res.status(403).json({ message: 'Category not found' });
 
-   try {
-      const { categoryId } = req.params;
+    let catergory = await Category.findById(categoryId);
+    if (!category) return res.status(403).json({ message: 'Category not found' });
 
-      if (!mongoose.Types.ObjectId.isValid(categoryId)) return res.status(403).json({ message: 'Category not found' });
+    req.category = catergory;
 
-      let catergory = await Category.findById(categoryId);
-
-      if (!category) return res.status(403).json({ message: 'Category not found' });
-
-      req.category = catergory;
-      
-      next();
-
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
