@@ -6,20 +6,20 @@ import { verifyToken, isAdmin } from '../middleware/auth';
 import multer from '../middleware/multer';
 
 // Controllers
-import * as ctrl from '../controllers/product.controller';
+import * as productCtrl from '../controllers/product.controller';
 
 const router = Router();  // Router() retorna un objeto que nos permite definir rutas.
 
-router.get('/', ctrl.getProducts);
-router.get('/:productId', ctrl.getProductById);
-router.get('/categories/:categoryId', ctrl.getProductsByCategory);
+router.get('/', productCtrl.getProducts);
+router.get('/:productId', productCtrl.getProductById);
+router.get('/categories/:categoryId', productCtrl.getProductsByCategory);
 
-router.post('/', [verifyToken, isAdmin, multer.single('image')], ctrl.createProduct);
+router.post('/', [verifyToken, isAdmin, multer.single('image')], productCtrl.createProduct);
 
-router.put('/:productId', [verifyToken, isAdmin], ctrl.updateProductById);
-router.put('/checkout/:productId', verifyToken, ctrl.updateProductById);
+router.put('/:productId', [verifyToken, isAdmin], productCtrl.updateProductById);
+router.put('/checkout/:productId', verifyToken, productCtrl.updateProductById);
 
-router.delete('/:productId', [verifyToken, isAdmin], ctrl.deleteProductById);
+router.delete('/:productId', [verifyToken, isAdmin], productCtrl.deleteProductById);
 
 export default router;
 

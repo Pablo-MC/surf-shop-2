@@ -1,29 +1,48 @@
 // Modelo de Productos. Colección 'products'.
 import { Schema, model } from 'mongoose';
 
-const productSchema = new Schema({
-   name: String,
-   description: String,
-   imageURL: String,  // URL image Cloudinary
-   imageId: String,   // id image Cloudinary
-   price: Number,
-   stock: Number,
-   shipping: { type: Boolean, default: false },
-   sold: { type: Number, default: 0 },
-   category: {  // Relación entre dos colecciones (products y categories).
-      ref: 'Category',
-      type: Schema.Types.ObjectId, // Guarda una relación a traves de ids. (_id)
-      autopopulate: true, // Muestra el objeto referenciado completo. 
-      required: true // Required === campo obligatorio
-   },
+const ProductSchema = new Schema({
+  name: String,
+  description: String,
+  imageURL: String,  // URL image Cloudinary
+  imageId: String,   // id image Cloudinary
+  price: Number,
+  stock: Number,
+  shipping: { // Envío
+    type: Boolean,
+    default: false
+  },
+  sold: { // Cantidad de vendidos
+    type: Number,
+    default: 0,
+  },
+  category: {  // Relación entre dos colecciones (products y categories). ✅
+    ref: 'Category',
+    type: Schema.Types.ObjectId, // Guarda una relación a traves de ids. (_id)
+    autopopulate: true, // Muestra el objeto referenciado completo. 
+    // required: true // Required === campo obligatorio
+  },
+  // photo: { // Alternativa de la foto (averiguar.)
+  //   data: Buffer,
+  //   contentType: String
+  // },
+  // ratingReviews: [{
+  //   review: String,
+  //   rating: String,
+  //   user: {
+  //     ref: 'User',
+  //     type: Schema.Types.ObjectId,
+  //     autopopulate: true,
+  //   },
+  // }],
 }, {
-   timestamps: true,  // Agrega la fecha de creación (createdAt) y de actualización (updatedAt). 
-   versionKey: false  // Uculta el key '__v:0'.  
+  timestamps: true,  // Agrega la fecha de creación (createdAt) y de actualización (updatedAt). 
+  versionKey: false  // Uculta el key '__v:0'.  
 });
 
-productSchema.plugin(require('mongoose-autopopulate'));
+ProductSchema.plugin(require('mongoose-autopopulate'));
 
-export default model('Product', productSchema, 'products');
+export default model('Product', ProductSchema, 'products');
 
 
 /*

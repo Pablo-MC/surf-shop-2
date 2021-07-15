@@ -8,8 +8,8 @@ import Category from '../models/Category';
 
 export const verifyToken = async function (req, res, next) {
   try {
-    // Verificar si existe un token almacenado en el campo 'x-auth-token' del header de la petición del cliente.
-    const token = req.header('x-auth-token');  // console.log(token);  
+    // Verificar si existe un token almacenado en el campo 'x-auth-token' dentro del HEADER de la solicitud del Cliente.
+    const token = req.header('x-auth-token');  // console.log(token); 
     if (!token) return res.status(403).json({ message: 'No token provided!' });
 
     // Verificar si el token es válido. Si es valido nos retorna un objeto donde se encuentra almacenado el id del usuario ej: { id: '5f61810cb394ef082828a7e3', iat: 1600225548, exp: 1600311948 }. De lo contrario entra al catch y retorna el mensaje: 'jwt expired' || 'invalid token'. 
@@ -19,12 +19,12 @@ export const verifyToken = async function (req, res, next) {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // Asignar a la request (req) el id del usuario en la propiedad userId para poder utilizarla en el siguiente middleware o en la función del controlador.
+    // Crear el campo (KEY) 'userId' dentro del HEADER de la solicitud del Cliente y asignarle como VALUE el id del usuario, para poder usar dicho campo en el siguiente middleware o en la función del controlador.
     req.userId = decoded.id;
 
-    next();  // next() continúa con el siguiente middleware ó función de un controlador.
+    next();  // next() continúa con el siguiente middleware o función de un controlador.
   } catch (error) {
-    res.status(500).json({ message: error.message });  // 'jwt expired'  ||  'invalid token'
+    res.status(500).json({ message: error.message });  // 'jwt expired'  ||  'invalid token' || 'No token provided!'
     // res.status(500).json({ message: 'Unauthorized' });
   }
 }

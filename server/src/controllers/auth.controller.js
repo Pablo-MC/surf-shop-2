@@ -18,13 +18,12 @@ export const register = async function (req, res) {
     const newUser = new User({
       username: username,
       email: email,
-      password: passwordHash
+      password: passwordHash,
     });
 
     // Guardar Usuario en la Base de datos
     await newUser.save();
 
-    // OBS: SIEMPRE SE DEBE RETORNAR ALGO. 
     res.status(200).json({ message: 'Successful registration! 😀' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,22 +35,22 @@ export const login = async function (req, res) {
     const { email, password } = req.body;
 
     // Verificar si es un usuario que ya esta registrado.
-    const user = await (await User.findOne({ email: email })); // Retorna un objeto (true) ó null (false).
+    const user = await User.findOne({ email: email }); // Retorna un objeto (true) ó null (false).
     if (!user) return res.status(400).json({ message: 'The user not exist' });
 
-    // Revisar si el password que nos envía el Usuario matchea con el password del usuario registrado.
+    // Verificar si el password que nos envía el usuario matchea con el password del usuario registrado.
     const matchPassword = await bcryptjs.compare(password, user.password); // Retorna un boolean. 
     if (!matchPassword) return res.status(400).json({ message: 'Invalid password' });
 
-    // Crear el Token. sign() recibe tres parámetros:
+    // Crear el Token. sign() recibe tres argumentos:
     //1). Dato que se va guardar adentro del Token. (en este caso: el dato es el id del usuario). 
     //2). Palabra secreta que se va a utilizar para cifrar el dato del Token.
     //3). Tiempo de expiración del Token. (Opcional) -> Ej: 24hs = 86400 seg. 
     // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 86400 // 24hs });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    // Enviar el Token al cliente para que se almacene en el LocalStorage y los datos del usuario. 
-    res.status(200).json({ token, user });
+    // Enviar el token al cliente que será almacenado en el LocalStorage. 
+    res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -61,7 +60,7 @@ export const getAuthenticatedUser = async function (req, res) {
   try {
     // Retorna el usuario referente al id pasado por parametro SIN el password.
     const userAuth = await User.findById(req.userId).select('-password');
-    res.status(200).json(userAuth);
+    res.status(200).json({ userAuth: userAuth });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

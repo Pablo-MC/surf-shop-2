@@ -1,13 +1,18 @@
 import { Router } from 'express';
-import * as ctrl from '../controllers/user.controller';
+import * as userCtrl from '../controllers/user.controller';
 
 const router = Router();
 
-router.get('/', ctrl.getUsers);
-router.get('/:userId', ctrl.getUserById);
+router.get('/', userCtrl.getUsers);
 
-router.put('/:userId', ctrl.updateUserById);
+router.get('/:userId', userCtrl.getUserById);
+router.put('/:userId', userCtrl.updateUserById);
+router.delete('/:userId', userCtrl.deleteUserById);
 
-router.delete('/:userId', ctrl.deleteUserById);
+// Alternative
+// router.route('/:userId')
+//   .get(userCtrl.getUserById)
+//   .put(userCtrl.updateUserById)
+//   .delete(userCtrl.deleteUserById)
 
 export default router;

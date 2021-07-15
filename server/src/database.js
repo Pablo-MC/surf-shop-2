@@ -1,4 +1,4 @@
-// Conexión con la Base de Datos. OBS: utilización del módulo mongoose para conectarnos a MongoDB.
+// Configuración de conexión a la Base de Datos.
 import mongoose from 'mongoose';
 
 export const connectDB = async function () {
@@ -9,8 +9,8 @@ export const connectDB = async function () {
       useCreateIndex: true,
       useFindAndModify: false
     });
-    console.log('DB is connected');
+    console.log('Database is connected ✔');
   } catch (error) {
-    console.error(error);
+    console.log('Database connection error:', error.message);
   }
 }

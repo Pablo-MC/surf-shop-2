@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import productRoutes from './routes/product.routes';
 import categoryRoutes from './routes/category.routes';
+// import cartRoutes from './routes/cart.routes';
 
 import { connectDB } from './database';
 
@@ -20,24 +21,25 @@ connectDB();
 
 // Middlewares
 app.use(cors());  // Permite enviar y recibir datos entre el Servidor y el Cliente.
-app.use(morgan('dev'));  // Permite ver en la terminal las peticiones que llegan desde el Cliente.
-app.use(express.json());  // Permite al servidor interpretar los formatos json que llegan desde el cliente (req.body)
+app.use(morgan('dev'));  // Permite ver en la terminal las solicitudes que llegan desde el Cliente.
+app.use(express.json());  // Permite al servidor interpretar los formatos json que llegan desde el Cliente (req.body).
 app.use(express.urlencoded({ extended: false }));  // Permite al servidor interpretar datos enviados a traves de formularios. 
+app.use(express.static(path.join(__dirname, 'public'))); // Carpeta pública de archivos estáticos.
 
-// Routes (Definición de las rutas del Servidor) - REST API
+// Routes (Definir las rutas del Servidor) - REST API
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/category', categoryRoutes);
+// app.use('/api/cart', cartRoutes);
 
-// Carpeta pública de archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Establecer el número de puerto al cual se va a conectar el servidor. (!== al puerto del cliente). 
-// OBS: En producción el número de puerto será establecido por el hosting en el valor env.PORT
+// Establecer el número de puerto del Servidor al que deberán llegar las solicitudes del Cliente.  
+// . En desarrollo será 4000 (http://localhost:4000) . OBS: Debe ser !== al número de puerto del Cliente.
+// . En producción el número de puerto será establecido por el hosting en el valor env.PORT
 app.set('port', process.env.PORT || 4000);
 
-// Iniciar Servidor
 app.listen(app.get('port'), () => {
    console.log(`Server listening on port ${app.get('port')}`);
 });
+
+// app.get('/', (req, res) => res.json({ message: 'Hello World' }));

@@ -43,7 +43,7 @@ export const createProduct = async function (req, res) {
 
 export const getProducts = async function (req, res) {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ _id: -1 });
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -82,7 +82,8 @@ export const updateProductById = async function (req, res) {
 export const deleteProductById = async function (req, res) {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.productId);
-    await cloudinary.v2.uploader.destroy(deletedProduct.imageId);  // Elimina la imagen del producto del hosting Cloudinary.
+    // Eliminar la imagen del producto del hosting Cloudinary.
+    await cloudinary.v2.uploader.destroy(deletedProduct.imageId);
     res.status(200).json({ message: 'Product successfull deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
