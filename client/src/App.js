@@ -22,10 +22,10 @@ import SessionExpired from './components/layout/SessionExpired';
 
 import PrivateRoute from './components/routes/PrivateRoute';
 
-import tokenAuth from './config/token';
+// import tokenAuth from './config/token';
 
 // Al iniciar la app o al recargar el componente, enviamos (en caso de que exista) el token que esta almacenado en LocalStorage via HEADER al Backend.
-tokenAuth();
+// tokenAuth();
 
 // Scrolling Arrow Top
 window.addEventListener('scroll', function () {

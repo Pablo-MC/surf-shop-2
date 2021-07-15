@@ -7,7 +7,7 @@ const Admin = () => {
 
   return (
     <div className="container">
-      {user && user.roles === 'admin'
+      {user && user.role === 'admin'
         ?
         <Fragment>
           <h1 className="text-center mt-5">Administrator Panel</h1>

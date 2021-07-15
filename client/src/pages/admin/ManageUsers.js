@@ -43,11 +43,11 @@ const ManageUsers = () => {
               <div className="container mt-4 lead">
                 <p>Username: <span className="text-primary">{user.username}</span></p>
                 <p>Email: <span className="text-primary">{user.email}</span></p>
-                <p>Role: <span className="text-success font-weight-normal">{user.roles}</span></p>
+                <p>Role: <span className="text-success font-weight-normal">{user.role}</span></p>
 
                 <div className="form-row mt-4">
                   <div className="d-flex">
-                    <select className="custom-select" onChange={(e) => user.roles = e.target.value}>
+                    <select className="custom-select" onChange={(e) => user.role = e.target.value}>
                       <option hidden>Choose role...</option>
                       <option value="user">User</option>
                       <option value="admin">Admin</option>

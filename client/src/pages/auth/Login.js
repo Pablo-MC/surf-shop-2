@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from '../../store/auth-actions';
+import { signIn, getAuthenticatedUser } from '../../store/auth/auth-actions';
 
 const Login = () => {
   const email = useRef();
@@ -14,8 +14,11 @@ const Login = () => {
   const message = useSelector(state => state.auth.message);
 
   useEffect(() => {
-    if (isAuthenticated) history.push('/');
-  }, [isAuthenticated]);
+    if (isAuthenticated) {
+      dispatch(getAuthenticatedUser());
+      history.push('/');
+    }
+  }, [isAuthenticated, history, dispatch]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -47,6 +50,7 @@ const Login = () => {
               type="password"
               ref={password}
               placeholder="Password"
+              autoComplete="on"
               required
             />
           </div>

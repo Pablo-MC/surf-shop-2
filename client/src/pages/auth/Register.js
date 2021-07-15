@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../store/auth-actions';
-
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../store/auth/auth-actions';
 
 const Register = () => {
   const [colorMessage, setColorMessage] = useState('danger');
@@ -15,17 +14,16 @@ const Register = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const registered = useSelector(state => state.auth.registered);
   const message = useSelector(state => state.auth.message);
 
   useEffect(() => {
-    if (registered) {
+    if (message === 'Successful registration! 😀') {
       setColorMessage('success');
       setTimeout(() => {
         history.push('/login');
       }, 2000)
     }
-  }, [registered]);
+  }, [message, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();

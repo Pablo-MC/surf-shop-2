@@ -3,8 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import $ from 'jquery';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../store/auth-slice';
-import { getAuthenticatedUser } from '../../store/auth-actions';
+import { authActions } from '../../store/auth/auth-slice';
+import { getAuthenticatedUser } from '../../store/auth/auth-actions';
 
 import roleContext from '../../context/role/roleContext';
 import cartContext from '../../context/cart/cartContext';
@@ -36,16 +36,16 @@ const Navbar = () => {
   }
 
   // Expirar Sesión si el usuario NO navega en el sitio durante 2 minutos. (Mouse)
-  if (isAuthenticated) {
-    let timeout;
-    window.addEventListener('mousemove', () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        dispatch(authActions.logout());
-        history.push('/session-expired');
-      }, 120000); // 2m === 120000
-    })
-  }
+  // if (isAuthenticated) {
+  //   let timeout;
+  //   window.addEventListener('mousemove', () => {
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => {
+  //       dispatch(authActions.logout());
+  //       history.push('/session-expired');
+  //     }, 120000); // 2m === 120000
+  //   })
+  // }
 
   // Expirar Sesión si el usuario NO navega en el sitio durante 2 minutos. (Touch)
   if (isAuthenticated) {
@@ -80,21 +80,21 @@ const Navbar = () => {
             <Link to='/' className="nav-link dropdown-toggle" data-toggle="dropdown">Shop</Link>
             <Dropdown categories={categories} onProducts={getProductsByCategory} />
           </div>
+          {user && user.role === 'user' ? <span className="nav-link">{user.username}</span> : null}
+          {user && user.role === 'admin' ? <Link to='/admin' className="nav-link">Admin</Link> : null}
         </div>
-        {user && user.roles === 'user' ? <span className="nav-link">{user.username}</span> : null}
-        {user && user.roles === 'admin' ? <Link to='/admin' className="nav-link">Admin</Link> : null}
-      </div>
-      <div className="d-flex ml-auto text-center mr-2 btn-mobile">
-        <div className="cart-icon-box">
-          <Link to='/cart' className="btn btn-outline-info text-uppercase">My Cart<i className="fa fa-cart-arrow-down ml-2"></i></Link>
-          {productsCart.length > 0 ? <span className="cart-notification"> {productsCart.length} </span> : null}
+        <div className="d-flex ml-auto text-center mr-2 btn-mobile">
+          <div className="cart-icon-box">
+            <Link to='/cart' className="btn btn-outline-info text-uppercase">My Cart<i className="fa fa-cart-arrow-down ml-2"></i></Link>
+            {productsCart.length > 0 ? <span className="cart-notification"> {productsCart.length} </span> : null}
+          </div>
+          {isAuthenticated
+            ? <Link to='/' className="btn btn-info text-uppercase ml-3" onClick={handleClick}>Log Out<i className="fa fa-sign-out ml-2"></i></Link>
+            : <Link to='/login' className="btn btn-info text-uppercase ml-3">Sign In<i className="fa fa-user-circle ml-2"></i></Link>
+          }
         </div>
-        {isAuthenticated
-          ? <Link to='/' className="btn btn-info text-uppercase ml-3" onClick={handleClick}>Log Out<i className="fa fa-sign-out ml-2"></i></Link>
-          : <Link to='/login' className="btn btn-info text-uppercase ml-3">Sign In<i className="fa fa-user-circle ml-2"></i></Link>
-        }
       </div>
-    </nav >
+    </nav>
   );
 }
 

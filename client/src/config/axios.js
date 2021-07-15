@@ -1,5 +1,4 @@
-// Utilización del modulo axios del lado del cliente para enviar las peticiones hacia el Backend.
-
+// El modulo axios se utiliza para enviar las solicitudes hacia el Backend.
 import axios from 'axios';
 
 const clientAxios = axios.create({
@@ -8,5 +7,4 @@ const clientAxios = axios.create({
 
 export default clientAxios;
 
-
-// OBS: De esta forma siempre que mande a llamar a clienteAxios va a tener una URL como base. Luego cuando registremos la variable de entorno en producción, solamente registramos REACT_APP_BACKEND_URL donde haya quedado nuestro proyecto; de esa forma TODOS los lugares a donde estamos haciendo peticiones van a actualizarse hacia ese nuevo Backend. 
+// OBS: De esta forma siempre que se envíe una solicitud al Backend, clienteAxios va a tener establecida una URL como base (entrada al servidor). Luego cuando registremos la variable de entorno en producción, solamente debemos registrar la variable REACT_APP_BACKEND_URL.

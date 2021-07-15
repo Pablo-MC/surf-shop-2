@@ -1,4 +1,4 @@
-export default (state, action) => {
+const cartReducer = (state, action) => {
    switch (action.type) {
 
       case 'ADD_PRODUCT':
@@ -8,7 +8,7 @@ export default (state, action) => {
             totalPrice: state.totalPrice + action.payload.price
          }
 
-      case 'DELETE_PRODUCT':   
+      case 'DELETE_PRODUCT':
          return {
             ...state,
             productsCart: state.productsCart.filter(product => product._id !== action.payload._id)
@@ -42,6 +42,8 @@ export default (state, action) => {
          return state;
    }
 }
+
+export default cartReducer;
 
 // El Reducer cambia los States de los componentes. 
 

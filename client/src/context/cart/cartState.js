@@ -10,33 +10,33 @@ import clientAxios from '../../config/axios';
 
 const CartState = (props) => {
 
-   const initialState = { 
+   const initialState = {
       productsCart: [],
-      totalPrice: 0  
+      totalPrice: 0
    }
-   
-   
+
+
    // Create the state and dispatch (useReducer)
    const [state, dispatch] = useReducer(cartReducer, initialState);
-   
+
 
    // Actions
 
-   const addProduct = (product) => { 
-      
+   const addProduct = (product) => {
+
       // Para no duplicar el producto en la lista, agrego el producto únicamente si no está en el carrito.
       if (!isAddedToCart(product._id)) {
          product.quantity = 1;
          product.total = product.price;
-         
+
          dispatch({
             type: 'ADD_PRODUCT',
             payload: product
-         }) 
-      } 
-   }               
-   
-   const deleteProduct = (product) => {    
+         })
+      }
+   }
+
+   const deleteProduct = (product) => {
 
       state.totalPrice -= product.total;
 
@@ -49,7 +49,7 @@ const CartState = (props) => {
    const deleteAllProducts = () => {  // Función Utilizada para cuando se realiza la compra. 
 
       state.productsCart.map(product => deleteProduct(product));
-            
+
       dispatch({
          type: 'DELETE_ALL_PRODUCT'
       })
@@ -79,24 +79,24 @@ const CartState = (props) => {
             payload: product
          })
       }
-   } 
+   }
 
 
-   const makePurchase = async () => {  
+   const makePurchase = async () => {
 
       try {
          // Iterar cada producto del carrito: actualizar la cantidad de stock y vendidos (sold).
          for (let product of state.productsCart) {
             product.stock -= product.quantity;
-            product.sold += product.quantity; 
+            product.sold += product.quantity;
             await clientAxios.put(`/api/product/checkout/${product._id}`, product);
-         } 
-         
+         }
+
          // Eliminar los productos de la lista del Carrito.
          deleteAllProducts();
 
       } catch (error) {
-         console.log(error);   
+         console.log(error);
       }
    }
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import cartContext from '../../context/cart/cartContext';
 import $ from 'jquery';
 
@@ -29,7 +29,7 @@ const Checkout = (props) => {
   });
 
   return (
-    <>
+    <Fragment>
       <div className="container my-5">
         <div className="row justify-content-center h-100">
           <div className="col-sm-10 col-md-7 col-lg-5 col-xl-4">
@@ -88,7 +88,7 @@ const Checkout = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 }
 

@@ -14,7 +14,7 @@ export default (state, action) => {
          }
 
       case 'LOGIN_SUCCESS':
-         localStorage.setItem('token', action.payload); 
+         localStorage.setItem('token', action.payload);
          return {
             ...state,
             authenticated: true,
@@ -26,15 +26,15 @@ export default (state, action) => {
          return {
             ...state,
             message: action.payload
-         }   
-      
+         }
+
       case 'GET_USER':
          return {
             ...state,
             authenticated: true,
             user: action.payload
-         }   
-      
+         }
+
       case 'LOGOUT':
          localStorage.removeItem('token');
          return {
@@ -49,7 +49,7 @@ export default (state, action) => {
          return {
             ...state,
             message: null
-         }   
+         }
 
 
       default:

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Dropdown = (props) => {
   return (
-    <div div className="dropdown-menu">
+    <div className="dropdown-menu">
       {props.categories.map(category =>
         <Link
           to={`/products/${category.name}`}

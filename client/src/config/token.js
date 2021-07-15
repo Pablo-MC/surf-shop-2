@@ -1,19 +1,15 @@
 import clientAxios from './axios';
 
-
-// Fn utilizada para enviar el token al backend cada vez que el usuario realiza una petición. ?????
+// Enviar y almacenar en el HEADER del Servidor el token que esta almacenado en LocalSorage en caso de que exista. 
+// OBS: Header => KEY: x-auth-token | VALUE: token   
 const tokenAuth = () => {
-  const token = localStorage.getItem('token');  // token ->  string (true)  ||  null (false).
-
-  // En caso de que haya un token almacenado en LocalStorage entonces lo enviamos al HEADER como VALUE del KEY 'x-auth-token' hacia backend, caso contrario eliminamos el VALUE del KEY 'x-auth-token'.
+  const token = localStorage.getItem('token');  // token:  string => (true)  | vacio => null (false).
 
   if (token) {
     clientAxios.defaults.headers.common['x-auth-token'] = token;
-  } else {
+  } else { // Para que se elimina sino hay nada?. Probar sacarlo. ###
     delete clientAxios.defaults.headers.common['x-auth-token'];
   }
 }
 
 export default tokenAuth;
-
-
