@@ -1,6 +1,4 @@
-import React from 'react';
 import $ from 'jquery';
-
 import logo from '../../assets/images/logo/logo_white.png';
 
 const SessionExpired = () => {

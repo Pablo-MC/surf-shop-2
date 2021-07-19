@@ -1,5 +1,3 @@
-import React from 'react';
-
 import lost from '../../assets/images/brands/lost.png'
 import channel from '../../assets/images/brands/channel.png'
 import create from '../../assets/images/brands/create.png'

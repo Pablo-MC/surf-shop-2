@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 import Carousel from '../../components/UI/Carousel/Carousel';
 import Payment from '../../components/layout/Payment';

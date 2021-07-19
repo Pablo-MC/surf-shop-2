@@ -1,13 +1,16 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import $ from 'jquery';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import { authActions } from '../../store/auth/auth-slice';
 import { getAuthenticatedUser } from '../../store/auth/auth-actions';
 
+import { cartActions } from '../../store/cart/cart-slice';
+import { saveCartUser } from '../../store/cart/cart-actions';
+
 import roleContext from '../../context/role/roleContext';
-import cartContext from '../../context/cart/cartContext';
 
 import logo from '../../assets/images/logo/logo_blue.png';
 
@@ -19,9 +22,9 @@ const Navbar = () => {
 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.auth.user);
+  const productsCart = useSelector(state => state.cart.productsCart);
 
   const { categories, getCategories, getProducts, getProductsByCategory } = useContext(roleContext);
-  const { productsCart, deleteAllProducts } = useContext(cartContext);
 
   useEffect(() => {
     dispatch(getAuthenticatedUser());
@@ -31,9 +34,11 @@ const Navbar = () => {
   }, []);
 
   const handleClick = () => {
+    dispatch(saveCartUser(user, productsCart)); // Guardar los productos del carrito en la propiedad cart del usuario.
+    dispatch(cartActions.removeAllProductsFromCart());
     dispatch(authActions.logout());
-    deleteAllProducts(); // Eliminar productos del carrito
   }
+
 
   // Expirar Sesión si el usuario NO navega en el sitio durante 2 minutos. (Mouse)
   // if (isAuthenticated) {
@@ -67,9 +72,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-dark py-0">
-      <Link to='/'>
-        <img src={logo} width="100" alt="Main Logo" />
-      </Link>
+      <Link to='/'><img src={logo} width="100" alt="Main Logo" /></Link>
       <button className="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
         <span className="navbar-toggler-icon"></span>
       </button>

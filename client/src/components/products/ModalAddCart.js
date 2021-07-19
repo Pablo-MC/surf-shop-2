@@ -1,5 +1,3 @@
-import React from "react";
-
 const ModalAddCart = () => {
   return (
     <div className="modal fade" id="cartModal" tabIndex="-1" role="dialog" aria-hidden="true">

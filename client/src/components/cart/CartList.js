@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
-import cartContext from '../../context/cart/cartContext';
+import React from 'react';
+
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cart/cart-slice';
 
 const CartList = ({ product }) => {
-  const { deleteProduct, increaseQuantity, decreaseQuantity } = useContext(cartContext);
+  const dispatch = useDispatch();
   const { name, imageURL, price, total, quantity, stock } = product;
-
 
   return (
     <div className="row border-bottom border-info text-center align-items-baseline py-4 m-0">
@@ -21,7 +22,8 @@ const CartList = ({ product }) => {
       <div className="col-3 col-lg-2 d-none d-sm-block">
         <div className="input-group">
           <span className="input-group-btn">
-            <button className="btn btn-danger btn-sm" onClick={() => decreaseQuantity(product)}>
+            <button className="btn btn-danger btn-sm"
+              onClick={() => dispatch(cartActions.decreaseQuantity(product))}>
               <i className="fa fa-minus"></i>
             </button>
           </span>
@@ -34,7 +36,8 @@ const CartList = ({ product }) => {
           />
 
           <span className="input-group-btn">
-            <button className="btn btn-success btn-sm" onClick={() => increaseQuantity(product)}>
+            <button className="btn btn-success btn-sm"
+              onClick={() => dispatch(cartActions.increaseQuantity(product))}>
               <i className="fa fa-plus"></i>
             </button>
           </span>
@@ -47,7 +50,8 @@ const CartList = ({ product }) => {
       </div>
 
       <div className="col-4 col-sm-2">
-        <button className="btn btn-primary btn-sm" onClick={() => deleteProduct(product)}>
+        <button className="btn btn-primary btn-sm"
+          onClick={() => dispatch(cartActions.removeProductFromCart(product))}>
           <i className="fa fa-trash"></i>
         </button>
       </div>

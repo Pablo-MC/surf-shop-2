@@ -1,10 +1,10 @@
-import React, { Fragment, useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import roleContext from '../../context/role/roleContext';
 import Product from '../../components/products/Product';
 
 
 const ListProductsCategory = () => {
-  const { message, productsCategory, category } = useContext(roleContext);
+  const { message, productsCategory, category, categoryDes } = useContext(roleContext);
 
   return (
     <Fragment>
@@ -12,6 +12,7 @@ const ListProductsCategory = () => {
         ?
         <div className="container">
           <h1 className="my-4 text-capitalize text-center">{category}</h1>
+          <p className="lead text-center">{categoryDes}</p>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center mb-3">
             {productsCategory.map(product =>
               <div key={product._id}>

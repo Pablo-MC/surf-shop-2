@@ -1,4 +1,5 @@
 import { authActions } from './auth-slice';
+import { cartActions } from '../cart/cart-slice';
 
 // Importar ClienteAxios para hacer las solicitudes al Backend.
 import clientAxios from '../../config/axios';
@@ -47,7 +48,10 @@ export const getAuthenticatedUser = () => {
       const res = await clientAxios.get('/api/auth');
 
       // Obtener todos los datos del usuario MENOS el password y establecer al usuario autenticado como verdadero.
-      dispatch(authActions.getUser({ user: res.data.userAuth })) // El payload 'user' contiene: res.data.userAuth
+      dispatch(authActions.getUser({ user: res.data.userAuth })); // El payload 'user' contiene: res.data.userAuth
+
+      // obtengo el carrito del usuario!.
+      dispatch(cartActions.getCartUser({ userCart: res.data.userAuth.cart }));
     } catch (error) {
       console.error(error.response.data.message);  // 'No token provided' || 'The token expired' || 'invalid token'
 

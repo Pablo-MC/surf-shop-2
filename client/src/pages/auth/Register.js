@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,6 +68,7 @@ const Register = () => {
               type="password"
               ref={password}
               placeholder="Password"
+              autoComplete="on"
               required
             />
           </div>

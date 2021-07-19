@@ -1,13 +1,15 @@
-import React, { Fragment, useContext } from 'react';
+import { Fragment } from 'react';
+import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import cartContext from '../../context/cart/cartContext';
 import CartList from '../../components/cart/CartList';
 
-const Cart = (props) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+const Cart = () => {
+  const history = useHistory();
 
-  const { productsCart, totalPrice } = useContext(cartContext);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const productsCart = useSelector(state => state.cart.productsCart);
+  const totalPrice = useSelector(state => state.cart.totalPrice);
 
   return (
     <Fragment>
@@ -15,12 +17,11 @@ const Cart = (props) => {
         ?
         <div className="container">
           <div className="alert alert-danger lead text-center w-50 mx-auto mt-5" role="alert">
-            There are no products added to the Cart
+            Your cart is empty &#8291; 😥
           </div>
         </div>
         :
         <div className="container">
-
           <table className="table table-info mt-3 text-center">
             <thead className="d-none d-lg-block">
               <tr className="row m-0">
@@ -34,31 +35,22 @@ const Cart = (props) => {
           </table>
 
           {productsCart.map(product =>
-            <CartList
-              key={product._id}
-              product={product}
-            />
+            <CartList key={product._id} product={product} />
           )}
 
           <div className="container d-flex justify-content-end mt-4 pt-3 pb-5 cart-price">
             <h2 className="m-0">Total: $ {totalPrice.toFixed(2)}</h2>
-            {isAuthenticated
-              ?
-              <button
-                type="submit"
-                className="btn btn-md btn-success ml-4 py-2 text-uppercase"
-                onClick={() => props.history.push('/checkout')}
-              >Checkout<i className="fa fa-arrow-right ml-3"></i></button>
-              :
-              <button
-                className="btn btn-md btn-success ml-4 py-2 text-uppercase"
-                onClick={() => props.history.push('/login')}
-              >Checkout<i className="fa fa-arrow-right ml-3"></i></button>
-            }
+            <button
+              className="btn btn-md btn-success ml-4 py-2 text-uppercase"
+              onClick={isAuthenticated
+                ? () => history.push('/checkout')
+                : () => history.push('/login')}
+            >Checkout<i className="fa fa-arrow-right ml-3"></i>
+            </button>
           </div>
         </div>
       }
-    </Fragment>
+    </Fragment >
   );
 }
 

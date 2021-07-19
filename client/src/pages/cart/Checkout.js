@@ -1,23 +1,36 @@
-import React, { Fragment, useContext } from 'react';
-import cartContext from '../../context/cart/cartContext';
+import { Fragment } from 'react';
 import $ from 'jquery';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { makePurchase, saveCartUser } from '../../store/cart/cart-actions';
 
 import mastercard from '../../assets/images/cards/mastercard.png'
 import discover from '../../assets/images/cards/discover.png'
 import paypal from '../../assets/images/cards/paypal.png'
 import americanExpress from '../../assets/images/cards/american-express.png'
 
-
 const Checkout = (props) => {
-  const { totalPrice, makePurchase } = useContext(cartContext);
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.auth.user);
+  const productsCart = useSelector(state => state.cart.productsCart);
+  const totalPrice = useSelector(state => state.cart.totalPrice);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    makePurchase();
-    $('#checkoutModal').modal('show');
-    setTimeout(() => {
-      props.history.push('/');
-    }, 3000);
+
+    // Actualiza la base de datos y despues elimina los productos del carrito del usuario.  
+    dispatch(makePurchase(productsCart));
+
+    // Elimina los productos de la propiedad cart del usuario. 
+    dispatch(saveCartUser(user));
+
+    // Poner un Spinner y cuando termine de actualizar todo que vuelva al Home.
+
+    // $('#checkoutModal').modal('show');
+    // setTimeout(() => {
+    //   props.history.push('/');
+    // }, 3000);
   }
 
   // Modal Checkout with timer

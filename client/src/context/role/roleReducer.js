@@ -43,6 +43,7 @@ const roleReducer = (state, action) => {
             ...state,
             productsCategory: action.payload,
             category: action.payload[0].category.name,
+            categoryDes: action.payload[0].category.description,
             message: null
          }
 

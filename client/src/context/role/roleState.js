@@ -14,6 +14,7 @@ const RoleState = (props) => {
       product: null,
       products: [],
       category: null,
+      categoryDes: null,
       categories: [],
       productsCategory: [],
       message: null
@@ -215,6 +216,7 @@ const RoleState = (props) => {
             product: state.product,
             products: state.products,
             category: state.category,
+            categoryDes: state.categoryDes,
             categories: state.categories,
             productsCategory: state.productsCategory,
             message: state.message,

@@ -23,7 +23,7 @@ const CartState = (props) => {
    // Actions
 
    const addProduct = (product) => {
-
+      console.log(product);
       // Para no duplicar el producto en la lista, agrego el producto únicamente si no está en el carrito.
       if (!isAddedToCart(product._id)) {
          product.quantity = 1;
@@ -48,7 +48,7 @@ const CartState = (props) => {
 
    const deleteAllProducts = () => {  // Función Utilizada para cuando se realiza la compra. 
 
-      state.productsCart.map(product => deleteProduct(product));
+      state.productsCart.map(product => deleteProduct(product)); // para qué ¿ ?
 
       dispatch({
          type: 'DELETE_ALL_PRODUCT'

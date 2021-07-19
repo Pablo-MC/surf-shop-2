@@ -1,16 +1,23 @@
-import React, { Fragment, useContext } from 'react';
-import cartContext from '../../context/cart/cartContext';
+import { Fragment } from 'react';
 import $ from 'jquery';
+
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cart/cart-slice';
 
 import ModalProduct from './ModalProduct';
 import ModalAddCart from './ModalAddCart';
 
-const Product = ({ product }) => {
-  const { addProduct } = useContext(cartContext);
+const Product = (props) => {
 
-  const { name, imageURL, price, description, stock } = product;
+  const dispatch = useDispatch();
 
-  // Modal AddCart with timer
+  // const user = useSelector(state => state.auth.user);
+  // const productsCart = useSelector(state => state.cart.productsCart);
+
+
+  const { name, imageURL, price, description, stock } = props.product;
+
+  // // Modal AddCart with timer
   $('#cartModal').on('shown.bs.modal', () => {
     const timer = setInterval(() => {
       $('#cartModal').modal('toggle');
@@ -18,12 +25,24 @@ const Product = ({ product }) => {
     }, 700);
   });
 
-  // Modal Product
+  // // Modal Product
   const dataProductModal = (name, imageURL, description) => {
     document.getElementById('nameProduct').textContent = name;
     document.getElementById('imageProduct').setAttribute('src', imageURL);
     document.getElementById('descriptionProduct').textContent = description;
   };
+
+  // const addProductHandler = () => {
+
+  // guardar producto en el carrito.
+  // dispatch(cartActions.addProductToCart(product));
+
+  // guardar los productos del carrito en la propiedad cart del usuario. 
+  // dispatch(saveCartUserandPutInCart(user, product));
+
+  // console.log(user, product);
+  // }
+
 
 
   return (
@@ -46,7 +65,8 @@ const Product = ({ product }) => {
             <button
               className="btn btn-sm btn-outline-info my-3"
               data-toggle="modal" data-target="#cartModal"
-              onClick={() => addProduct(product)}
+              onClick={() => dispatch(cartActions.addProductToCart(props.product))}
+            // onClick={addProductHandler}
             >Add Cart <i className="fa fa-shopping-cart ml-2"></i>
             </button>
           }

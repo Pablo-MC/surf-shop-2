@@ -1,5 +1,3 @@
-import React from "react";
-
 const ModalProduct = () => {
   return (
     <div className="modal fade style-modal" id="productModal" tabIndex="-1" role="dialog" aria-hidden="true">
