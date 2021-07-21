@@ -1,4 +1,7 @@
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
+
+const cloudinary = require('cloudinary').v2;
+
 import fs from 'fs-extra'; // Módulo que permite eliminar archivos.
 
 import Product from '../models/Product';
@@ -25,7 +28,7 @@ export const createProduct = async function (req, res) {
     // Crear Producto
     const product = new Product(req.body);
     // Subir imagen a Claudinary
-    const imgInfo = await cloudinary.v2.uploader.upload(req.file.path);  // console.log(imgInfo);
+    const imgInfo = await cloudinary.uploader.upload(req.file.path);  // console.log(imgInfo);
     // Agregar propiedades imageURL e imageId al producto
     product.imageURL = imgInfo.url;
     product.imageId = imgInfo.public_id;
@@ -79,11 +82,14 @@ export const updateProductById = async function (req, res) {
   }
 }
 
+
 export const deleteProductById = async function (req, res) {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.productId);
     // Eliminar la imagen del producto del hosting Cloudinary.
-    await cloudinary.v2.uploader.destroy(deletedProduct.imageId);
+    // await cloudinary.uploader.destroy(deletedProduct.imageId);
+    await cloudinary.uploader.destroy(deletedProduct.imageId);
+    console.log('Pase la eliminacion de Claudinary!');
     res.status(200).json({ message: 'Product successfull deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -21,7 +21,8 @@ export const getUserById = async function (req, res) {
 
 export const updateUserById = async function (req, res) {
   try {
-    await User.findByIdAndUpdate(req.params.userId, req.body);
+    // await User.findByIdAndUpdate(req.params.userId, req.body);
+    await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
     res.status(200).json({ message: 'User updated' });
   } catch (error) {
     res.status(500).json({ message: error.message });

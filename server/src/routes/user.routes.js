@@ -4,9 +4,10 @@ import * as userCtrl from '../controllers/user.controller';
 const router = Router();
 
 router.get('/', userCtrl.getUsers);
-
 router.get('/:userId', userCtrl.getUserById);
+
 router.put('/:userId', userCtrl.updateUserById);
+
 router.delete('/:userId', userCtrl.deleteUserById);
 
 // Alternative

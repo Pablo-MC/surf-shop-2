@@ -35,7 +35,7 @@ app.use('/api/category', categoryRoutes);
 
 // Establecer el número de puerto del Servidor al que deberán llegar las solicitudes del Cliente.  
 // . En desarrollo será 4000 (http://localhost:4000) . OBS: Debe ser !== al número de puerto del Cliente.
-// . En producción el número de puerto será establecido por el hosting en el valor env.PORT
+// . En producción será establecido por el hosting en el valor PORT
 app.set('port', process.env.PORT || 4000);
 
 app.listen(app.get('port'), () => {

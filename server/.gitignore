@@ -1,8 +1,6 @@
-# dependencies
+# Node
 /node_modules
-
-# misc
-.env
-
-# production
 /build
+
+# Environment Variables
+.env
