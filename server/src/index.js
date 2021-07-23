@@ -1,4 +1,4 @@
-require('dotenv').config();  // Importación de las variables de entorno.
+import 'dotenv/config'; // Importación de las variables de entorno.
 
 import express from 'express';
 import cors from 'cors';
@@ -23,7 +23,7 @@ connectDB();
 app.use(cors());  // Permite enviar y recibir datos entre el Servidor y el Cliente.
 app.use(morgan('dev'));  // Permite ver en la terminal las solicitudes que llegan desde el Cliente.
 app.use(express.json());  // Permite al servidor interpretar los formatos json que llegan desde el Cliente (req.body).
-app.use(express.urlencoded({ extended: false }));  // Permite al servidor interpretar datos enviados a traves de formularios. 
+app.use(express.urlencoded({ extended: true }));  // Permite al servidor interpretar datos enviados a traves de formularios.
 app.use(express.static(path.join(__dirname, 'public'))); // Carpeta pública de archivos estáticos.
 
 // Routes (Definir las rutas del Servidor) - REST API
