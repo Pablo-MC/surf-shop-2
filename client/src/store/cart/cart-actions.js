@@ -1,6 +1,6 @@
 import { cartActions } from './cart-slice';
 
-import clientAxios from '../../config/axios';
+import clientAxios from '../../lib/axios';
 
 export const makePurchase = (productsCart) => {
   return async function (dispatch) {
@@ -12,9 +12,6 @@ export const makePurchase = (productsCart) => {
         product.sold += product.quantity;
         await clientAxios.put(`/api/product/checkout/${product._id}`, product);
       }
-
-      console.log('PERFECTO!, LO GUARDÉ!');
-
       // Eliminar los productos de la lista del Carrito Y reestablecer el precio total a cero.
       dispatch(cartActions.removeAllProductsFromCart());
     } catch (error) {
@@ -27,7 +24,6 @@ export const saveCartUser = (user, productsCart = []) => {
   return async function (dispatch) {
     try {
       const userUpdated = { ...user }
-      // userUpdated.cart = [...userUpdated.cart, ...productsCart];
       userUpdated.cart = productsCart;
       await clientAxios.put(`/api/user/${user._id}`, userUpdated);
     } catch (error) {

@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import CartList from '../../components/cart/CartList';
+import CartList from '../../components/Cart/CartList';
 
 const Cart = () => {
   const history = useHistory();

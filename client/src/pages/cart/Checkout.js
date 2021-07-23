@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+// import { useHistory } from 'react-router';
 import $ from 'jquery';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,14 +10,15 @@ import discover from '../../assets/images/cards/discover.png'
 import paypal from '../../assets/images/cards/paypal.png'
 import americanExpress from '../../assets/images/cards/american-express.png'
 
-const Checkout = (props) => {
+const Checkout = () => {
+  // const history = useHistory();
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.auth.user);
   const productsCart = useSelector(state => state.cart.productsCart);
   const totalPrice = useSelector(state => state.cart.totalPrice);
 
-  const handleSubmit = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     // Actualiza la base de datos y despues elimina los productos del carrito del usuario.  
@@ -29,7 +31,7 @@ const Checkout = (props) => {
 
     // $('#checkoutModal').modal('show');
     // setTimeout(() => {
-    //   props.history.push('/');
+    //   history.push('/');
     // }, 3000);
   }
 
@@ -46,9 +48,7 @@ const Checkout = (props) => {
       <div className="container my-5">
         <div className="row justify-content-center h-100">
           <div className="col-sm-10 col-md-7 col-lg-5 col-xl-4">
-            <form
-              onSubmit={handleSubmit}
-            >
+            <form onSubmit={submitHandler}>
               <div className="card shadow-lg payment">
                 <div className="card-header bg-info pb-1">
                   <h5 className="text-center">Total: $ {totalPrice}</h5>

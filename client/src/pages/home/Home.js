@@ -1,17 +1,17 @@
 import { Fragment } from 'react';
 
 import Carousel from '../../components/UI/Carousel/Carousel';
-import Payment from '../../components/layout/Payment';
-import ListProducts from '../../components/products/ListProducts';
-import Brands from '../../components/layout/Brands';
-import Footer from '../../components/layout/Footer';
+import Payment from '../../components/Layout/Payment';
+import ProductsCarousel from '../../components/Products/ProductsCarousel';
+import Brands from '../../components/Layout/Brands';
+import Footer from '../../components/Layout/Footer';
 
 const Home = () => {
   return (
     <Fragment>
       <Carousel />
       <Payment />
-      <ListProducts />
+      <ProductsCarousel />
       <Brands />
       <Footer />
     </Fragment>

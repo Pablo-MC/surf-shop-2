@@ -8,12 +8,10 @@ import ModalProduct from './ModalProduct';
 import ModalAddCart from './ModalAddCart';
 
 const Product = (props) => {
-
   const dispatch = useDispatch();
 
   // const user = useSelector(state => state.auth.user);
   // const productsCart = useSelector(state => state.cart.productsCart);
-
 
   const { name, imageURL, price, description, stock } = props.product;
 

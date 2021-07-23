@@ -2,8 +2,8 @@ import { authActions } from './auth-slice';
 import { cartActions } from '../cart/cart-slice';
 
 // Importar ClienteAxios para hacer las solicitudes al Backend.
-import clientAxios from '../../config/axios';
-import tokenAuth from '../../config/token';
+import clientAxios from '../../lib/axios';
+import tokenAuth from '../../lib/token';
 
 export const registerUser = (newUser) => {
   return async function (dispatch) {

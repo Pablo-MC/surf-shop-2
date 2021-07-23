@@ -1,20 +1,15 @@
-import { useContext, useEffect } from 'react';
 import Carousel from 'react-elastic-carousel'
-import roleContext from '../../context/role/roleContext';
 import Product from './Product';
 
-const ListProducts = () => {
-  const { products, getProducts } = useContext(roleContext);
+import { useSelector } from 'react-redux';
 
-  useEffect(() => {
-    getProducts();
-    // eslint-disable-next-line
-  }, []);
+const ProductsCarousel = () => {
+  const products = useSelector(state => state.admin.products);
 
   // Almacenar todos los productos ordenados aleatoriamente.
   // let randomProducts = products.sort(() => Math.random() - 0.5);
 
-  // Productos "más vendidos", con stock y ordeandos aleatoriamente. 
+  // Productos "más vendidos ( > 3 )" y ordeandos aleatoriamente. 
   let sellers = products
     // .filter(product => product.sold > 2 && product.stock > 0)
     .filter(product => product.sold > 3)
@@ -28,11 +23,10 @@ const ListProducts = () => {
     { width: 990, itemsToShow: 4, itemsToScroll: 4 }
   ];
 
-
   return (
     <div className="container">
       <h2 className="my-5 text-center">Best sellers</h2>
-      <Carousel initialFirstItem={Math.ceil(Math.random() * 3)} breakPoints={breakPoints}>
+      <Carousel breakPoints={breakPoints}>
         {sellers.map(product =>
           <Product key={product._id} product={product} />
         )}
@@ -42,4 +36,4 @@ const ListProducts = () => {
   );
 }
 
-export default ListProducts;
+export default ProductsCarousel;

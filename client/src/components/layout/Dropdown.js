@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Dropdown = (props) => {
@@ -9,7 +8,6 @@ const Dropdown = (props) => {
           to={`/products/${category.name}`}
           key={category._id}
           className="dropdown-item text-center"
-          onClick={() => props.onProducts(category._id)}
         >{category.name}
         </Link>)
       }
