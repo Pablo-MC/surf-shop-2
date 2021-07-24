@@ -31,3 +31,6 @@ export const saveCartUser = (user, productsCart = []) => {
     }
   }
 }
+
+/////////////////////////////////////// Acciones Personalizadas. 
+// Thunks: es una funcion que retorna una acción luego de que algo termina. Dicha función thunk en lugar de retornar inmediatamente una acción, lo que hace es retornar OTRA función que finalmente retorna la acción para que podamos ejecutar algún otro código (QUE SEA ASINCRONO, cualquier código que cause efectos secundarios) ANTES de retornar la acción (que tenemos dentro del campo reducer.). Tambien podemos colocar un dispatch ANTES del codigo asincrono. PEro TODOAS las acciones que esten DESPUES de un codigo asincrono, se ejecutaraán DESPUES de que el código asicrono finalice!. 😀  
