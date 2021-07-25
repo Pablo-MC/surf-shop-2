@@ -2,7 +2,7 @@ import { cartActions } from './cart-slice';
 
 import clientAxios from '../../lib/axios';
 
-export const makePurchase = (productsCart) => {
+export const makePurchase = (user, productsCart) => {
   return async function (dispatch) {
     try {
       // Iterar cada producto del carrito: actualizar la cantidad de stock y vendidos (sold).
@@ -14,6 +14,8 @@ export const makePurchase = (productsCart) => {
       }
       // Eliminar los productos de la lista del Carrito Y reestablecer el precio total a cero.
       dispatch(cartActions.removeAllProductsFromCart());
+      // Resetear la propiedad cart del usuario. 
+      dispatch(saveCartUser(user));
     } catch (error) {
       console.log('Entre acá!', error);
     }
@@ -21,7 +23,7 @@ export const makePurchase = (productsCart) => {
 };
 
 export const saveCartUser = (user, productsCart = []) => {
-  return async function (dispatch) {
+  return async function () {
     try {
       const userUpdated = { ...user }
       userUpdated.cart = productsCart;

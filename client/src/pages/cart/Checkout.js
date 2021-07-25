@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
-// import { useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import $ from 'jquery';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { makePurchase, saveCartUser } from '../../store/cart/cart-actions';
+import { makePurchase } from '../../store/cart/cart-actions';
+import { getAllProducts } from '../../store/admin/admin-actions';
 
 import mastercard from '../../assets/images/cards/mastercard.png'
 import discover from '../../assets/images/cards/discover.png'
@@ -11,36 +12,42 @@ import paypal from '../../assets/images/cards/paypal.png'
 import americanExpress from '../../assets/images/cards/american-express.png'
 
 const Checkout = () => {
-  // const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.auth.user);
   const productsCart = useSelector(state => state.cart.productsCart);
   const totalPrice = useSelector(state => state.cart.totalPrice);
 
+  const options = {
+    style: 'currency',
+    currency: 'USD',
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
 
     // Actualiza la base de datos y despues elimina los productos del carrito del usuario.  
-    dispatch(makePurchase(productsCart));
+    dispatch(makePurchase(user, productsCart));
 
-    // Elimina los productos de la propiedad cart del usuario. 
-    dispatch(saveCartUser(user));
-
-    // Poner un Spinner y cuando termine de actualizar todo que vuelva al Home.
-
-    // $('#checkoutModal').modal('show');
-    // setTimeout(() => {
-    //   history.push('/');
-    // }, 3000);
+    $(document).ready(() => {
+      $('#checkoutModal').modal('show');
+      setTimeout(() => {
+        history.push('/');
+        // Actualizar productos
+        dispatch(getAllProducts());
+      }, 3000);
+    });
   }
 
   // Modal Checkout with timer
-  $('#checkoutModal').on('shown.bs.modal', () => {
-    const timer = setInterval(() => {
-      $('#checkoutModal').modal('toggle');
-      clearInterval(timer);
-    }, 2000);
+  $(document).ready(() => {
+    $('#checkoutModal').on('shown.bs.modal', () => {
+      const timer = setInterval(() => {
+        $('#checkoutModal').modal('toggle');
+        clearInterval(timer);
+      }, 2000);
+    });
   });
 
   return (
@@ -51,7 +58,7 @@ const Checkout = () => {
             <form onSubmit={submitHandler}>
               <div className="card shadow-lg payment">
                 <div className="card-header bg-info pb-1">
-                  <h5 className="text-center">Total: $ {totalPrice}</h5>
+                  <h5 className="text-center">Total: {new Intl.NumberFormat(navigator.language, options).format(totalPrice)}</h5>
                 </div>
                 <div className="card-body text-uppercase text-center pb-2">
                   <div>

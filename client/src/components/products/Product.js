@@ -10,38 +10,24 @@ import ModalAddCart from './ModalAddCart';
 const Product = (props) => {
   const dispatch = useDispatch();
 
-  // const user = useSelector(state => state.auth.user);
-  // const productsCart = useSelector(state => state.cart.productsCart);
-
   const { name, imageURL, price, description, stock } = props.product;
 
-  // // Modal AddCart with timer
-  $('#cartModal').on('shown.bs.modal', () => {
-    const timer = setInterval(() => {
-      $('#cartModal').modal('toggle');
-      clearInterval(timer);
-    }, 700);
+  // Modal AddCart with timer
+  $(document).ready(() => {
+    $('#cartModal').on('shown.bs.modal', () => {
+      const timer = setInterval(() => {
+        $('#cartModal').modal('toggle');
+        clearInterval(timer);
+      }, 700);
+    });
   });
 
-  // // Modal Product
+  // Modal Product
   const dataProductModal = (name, imageURL, description) => {
     document.getElementById('nameProduct').textContent = name;
     document.getElementById('imageProduct').setAttribute('src', imageURL);
     document.getElementById('descriptionProduct').textContent = description;
   };
-
-  // const addProductHandler = () => {
-
-  // guardar producto en el carrito.
-  // dispatch(cartActions.addProductToCart(product));
-
-  // guardar los productos del carrito en la propiedad cart del usuario. 
-  // dispatch(saveCartUserandPutInCart(user, product));
-
-  // console.log(user, product);
-  // }
-
-
 
   return (
     <Fragment>
@@ -64,14 +50,13 @@ const Product = (props) => {
               className="btn btn-sm btn-outline-info my-3"
               data-toggle="modal" data-target="#cartModal"
               onClick={() => dispatch(cartActions.addProductToCart(props.product))}
-            // onClick={addProductHandler}
             >Add Cart <i className="fa fa-shopping-cart ml-2"></i>
             </button>
           }
         </div>
       </div>
 
-      {/* /////////////// */}
+      {/* ////// MODALS ///////// */}
 
       <ModalProduct />
       <ModalAddCart />

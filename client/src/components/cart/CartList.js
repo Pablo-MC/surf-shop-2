@@ -5,6 +5,11 @@ const CartList = ({ product }) => {
   const dispatch = useDispatch();
   const { name, imageURL, price, total, quantity, stock } = product;
 
+  const options = {
+    style: 'currency',
+    currency: 'USD',
+  };
+
   return (
     <div className="row border-bottom border-info text-center align-items-baseline py-4 m-0">
       <div className="col-4 text-justify">
@@ -14,7 +19,7 @@ const CartList = ({ product }) => {
       </div>
 
       <div className="col-2 d-none d-lg-block">
-        <p>$ {price}</p>
+        <p>{new Intl.NumberFormat(navigator.language, options).format(price)}</p>
       </div>
 
       <div className="col-3 col-lg-2 d-none d-sm-block">
@@ -44,7 +49,7 @@ const CartList = ({ product }) => {
       </div>
 
       <div className="col-4 col-sm-3 col-lg-2">
-        <p className="text-center">$ {total.toFixed(2)}</p>
+        <p className="text-center">{new Intl.NumberFormat(navigator.language, options).format(total)}</p>
       </div>
 
       <div className="col-4 col-sm-2">

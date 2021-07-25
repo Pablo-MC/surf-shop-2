@@ -11,6 +11,11 @@ const Cart = () => {
   const productsCart = useSelector(state => state.cart.productsCart);
   const totalPrice = useSelector(state => state.cart.totalPrice);
 
+  const options = {
+    style: 'currency',
+    currency: 'USD',
+  };
+
   return (
     <Fragment>
       {productsCart.length === 0
@@ -39,7 +44,7 @@ const Cart = () => {
           )}
 
           <div className="container d-flex justify-content-end mt-4 pt-3 pb-5 cart-price">
-            <h2 className="m-0">Total: $ {totalPrice.toFixed(2)}</h2>
+            <h2 className="m-0">Total: {new Intl.NumberFormat(navigator.language, options).format(totalPrice)}</h2>
             <button
               className="btn btn-md btn-success ml-4 py-2 text-uppercase"
               onClick={isAuthenticated
