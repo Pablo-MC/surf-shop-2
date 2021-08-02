@@ -4,11 +4,11 @@
 
 ‣ _**[Surf Shop](https://surf-shop-app.netlify.app/)** es una tienda virtual ficticia que ofrece productos para los amantes del Surf._     
 
-‣ Javascript Stack: _**MERN** (MongoDB, Express, React, Node.js)_
+‣ JavaScript Stack: _**MERN** (MongoDB, Express, React, Node.js)_
 
 ‣ Dependencias utilizadas: 
- * **Front-end:** _axios, bootstrap, font-awesome, jquery, react-router-dom, styled-components, react-elastic-carousel._
- * **Back-end:** _bcryptjs, cloudinary, cors, dotenv, express, fs-extra, jsonwebtoken, mongoose, mongoose-autopopulate, morgan, multer, shortid._  
+ * **Front-end:** _react-redux, @reduxjs/toolkit, react-router-dom, react-elastic-carousel, axios, bootstrap, font-awesome, jquery._
+ * **Back-end:** _bcryptjs, cloudinary, cors, dotenv, express, fs-extra, jsonwebtoken, mongoose, morgan, multer, shortid._  
 
 #
 
